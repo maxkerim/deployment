@@ -1,0 +1,9 @@
+# Runtime state written by deploy.sh (which color is live)
+nginx/upstream/upstream.conf
+nginx/upstream/upstream.conf.*
+
+.env
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/

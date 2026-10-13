@@ -1,0 +1,29 @@
+groups:
+  - name: bluegreen
+    rules:
+      - alert: NoHealthyAppInstance
+        # Neither blue nor green is answering: users are seeing errors.
+        expr: sum(up{job="app"}) == 0
+        for: 15s
+        labels:
+          severity: critical
+        annotations:
+          summary: "No app instance (blue or green) is up"
+
+      - alert: NginxDown
+        expr: up{job="nginx"} == 0
+        for: 15s
+        labels:
+          severity: critical
+        annotations:
+          summary: "nginx exporter cannot reach nginx"
+
+      - alert: BothColorsRunning
+        # Normal for a short time after a deploy (old color kept for rollback).
+        # Fires if you forget to run ./deploy.sh stop-idle.
+        expr: sum(up{job="app"}) == 2
+        for: 1h
+        labels:
+          severity: info
+        annotations:
+          summary: "Both colors have been running for over an hour"

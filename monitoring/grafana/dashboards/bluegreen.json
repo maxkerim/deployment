@@ -1,0 +1,56 @@
+{
+  "uid": "bluegreen",
+  "title": "Blue-Green Deployment",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5s",
+  "time": { "from": "now-15m", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "App instances up (1 = up)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "refId": "A", "expr": "up{job=\"app\"}", "legendFormat": "{{instance}}" }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "Requests per second by color / version",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (color, version) (rate(app_requests_total[30s]))",
+          "legendFormat": "{{color}} ({{version}})"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "App uptime (resets mark a deploy)",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "targets": [
+        { "refId": "A", "expr": "app_uptime_seconds", "legendFormat": "{{color}} ({{version}})" }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "nginx: requests/s and active connections",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "refId": "A", "expr": "rate(nginx_http_requests_total[30s])", "legendFormat": "requests/s" },
+        { "refId": "B", "expr": "nginx_connections_active", "legendFormat": "active connections" }
+      ]
+    }
+  ]
+}

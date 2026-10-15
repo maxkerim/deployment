@@ -12,7 +12,7 @@ cd "$(dirname "$0")/.."
 export COMPOSE_PROJECT_NAME=bgd-e2e
 export HTTP_PORT=18080
 export UPSTREAM_DIR
-UPSTREAM_DIR="$(mktemp -d)"
+UPSTREAM_DIR="$PWD/.e2e-upstream"; rm -rf "$UPSTREAM_DIR"; mkdir -p "$UPSTREAM_DIR"
 chmod 755 "$UPSTREAM_DIR"
 URL="http://localhost:${HTTP_PORT}"
 LOG="$(mktemp)"

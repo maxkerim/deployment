@@ -55,7 +55,7 @@ services:
       - ${UPSTREAM_DIR:-./nginx/upstream}:/etc/nginx/upstream:ro
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost/nginx-health"]
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/nginx-health"]
       interval: 5s
       timeout: 3s
       retries: 5
